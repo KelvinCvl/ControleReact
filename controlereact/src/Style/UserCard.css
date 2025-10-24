@@ -2,7 +2,7 @@
   background-color: #2e2d2d;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  width: 220px;          
+  width: 450px;          
   height: 400px;          
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -30,19 +30,88 @@
   justify-content: center; 
 }
 
+.user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  padding: 16px;
+  margin: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #989595;
+  transition: transform 0.2s;
+}
+
+.user-card:hover {
+  transform: translateY(-3px);
+}
+
+.image-container {
+  position: relative; /* pour placer le bouton par-dessus l'image */
+  width: 100%;
+  text-align: center;
+}
+
+.user-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: #888;
+  transition: color 0.2s, background 0.2s;
+}
+
+.favorite-btn:hover {
+  color: gold;
+  background: rgba(255, 255, 255, 1);
+}
+
+.favorite-btn.active {
+  color: gold;
+}
+
+.user-info {
+  margin-top: 12px;
+  text-align: center;
+}
+
 .user-name {
-  font-size: 1.1rem;
-  margin: 10px 0 5px;
-  color: #ffffff;
+  font-size: 18px;
+  margin: 4px 0;
+  font-weight: 600;
 }
 
 .user-email {
-  font-size: 0.9rem;
-  color: #fbfbfb;
-  word-break: break-word;
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0;
 }
 
 .details-link {
-  margin-bottom: 30px;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
+.details-link:hover {
+  background-color: #0056b3;
+}

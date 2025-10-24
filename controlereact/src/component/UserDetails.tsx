@@ -31,14 +31,37 @@ function UserList() {
     }  
   }, []);
 
-  if (loading) {
-    return <p className="loading">Chargement des utilisateurs…</p>;
-  }
+   if (loading) {
+     return (<div className="spinner" aria-label="Chargement…"></div>);
+   }
 
   if (error) {
-    return <p className="error">{error}</p>;
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>
+        <button
+          className="retry-button"
+          onClick={() => {
+            if (id){
+            setLoading(true);
+            setError(null);
+             fetchUserbyId(parseInt(id))
+                .then((data) => {
+                    setUsers(data);
+                    })
+              .catch((err) => {
+                console.error('Erreur lors du chargement des utilisateurs :', err);
+                setError("Impossible de charger les utilisateurs. Veuillez réessayer plus tard.");
+              })
+              .finally(() => setLoading(false));
+          }}
+        }
+        >
+          Réessayer
+        </button>
+      </div>
+    );
   }
-
   if (users === null) {
     return <p>Aucun utilisateur trouvé.</p>;
   }

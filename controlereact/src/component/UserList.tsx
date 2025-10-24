@@ -1,18 +1,25 @@
 import '../Style/UserList.css';
 import { fetchUsers } from '../Data/API';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo} from 'react';
 import type { User } from '../Model/User';
 import UserCard from './UserCard';
 import { searchUsers } from '../component/Search';
 import { Tri } from '../component/Tri';
+import { toggleFavorite, loadFavorites } from './Favorites';
+import { useTheme } from "../context/ThemeContext";
 
 function UserList() {
   const [users, setUsers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState<string>('');
   const [sortBy, setSortBy] = useState<'name' | 'age'>('name');
+  const [favorites, setFavorites] = useState<number[]>(() => loadFavorites());
+  const { theme, toggleTheme } = useTheme(); 
+
+  const handleToggleFavorite = (id: number) => {
+    setFavorites(prev => toggleFavorite(id, prev)); 
+  };
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const usersPerPage = 10;
@@ -25,7 +32,6 @@ function UserList() {
       .then((data) => {
         const usersArray = Array.isArray(data) ? data : data.users;
         setUsers(usersArray || []);
-        setFilteredUsers(usersArray || []);
       })
       .catch((err) => {
         console.error('Erreur lors du chargement des utilisateurs :', err);
@@ -34,15 +40,43 @@ function UserList() {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
+  const filteredUsers = useMemo(() => {
     let temp = searchUsers(users, search);
     temp = Tri(temp, sortBy);
-    setFilteredUsers(temp);
-    setCurrentPage(1); 
-  }, [search, sortBy, users]);
+    return temp;
+  }, [users, search, sortBy]);
 
-  if (loading) return <p className="loading">Chargement des utilisateurs…</p>;
-  if (error) return <p className="error">{error}</p>;
+  useEffect(() => {
+    setCurrentPage(1);
+  },[search, sortBy]);
+
+  if (loading) return (<div className="spinner" aria-label="Chargement…"></div>);
+ if (error) {
+  return (
+    <div className="error-container">
+      <p className="error-message">{error}</p>
+      <button
+        className="retry-button"
+        onClick={() => {
+          setLoading(true);
+          setError(null);
+          fetchUsers()
+            .then((data) => {
+              const usersArray = Array.isArray(data) ? data : data.users;
+              setUsers(usersArray || []);
+            })
+            .catch((err) => {
+              console.error('Erreur lors du chargement des utilisateurs :', err);
+              setError("Impossible de charger les utilisateurs. Veuillez réessayer plus tard.");
+            })
+            .finally(() => setLoading(false));
+        }}
+      >
+        Réessayer
+      </button>
+    </div>
+  );
+}
   if (users.length === 0) return <p>Aucun utilisateur trouvé.</p>;
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
@@ -76,7 +110,7 @@ function UserList() {
       <div className="user-list">
         {currentUsers.map((user) => (
           <div key={user.id}>
-            <UserCard user={user} />
+            <UserCard user={user}  onToggleFavorite={handleToggleFavorite} isFavorite={favorites.includes(user.id)}/>
           </div>
         ))}
       </div>
@@ -98,6 +132,9 @@ function UserList() {
           disabled={currentPage === totalPages}
         >
           Suivant ▶
+        </button>
+        <button onClick={toggleTheme}>
+          Thème: {theme === "light" ? "☀️ Clair" : "🌙 Sombre"}
         </button>
       </div>
     </>
