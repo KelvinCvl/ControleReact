@@ -1,0 +1,39 @@
+/* Details.css */
+
+.user-details {
+  background-color: #2e2d2d; /* fond sombre */
+  color: #ffffff; /* texte blanc */
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  font-family: 'Arial', sans-serif;
+}
+
+.user-details h2 {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.user-details h2:first-child {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+
+.loading, .error {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 50px;
+}
+
+.loading {
+  color: #ffffff;
+}
+
+.error {
+  color: #ff4d4f; /* rouge pour erreur */
+}

@@ -1,0 +1,29 @@
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #6c6c6c;
+  border-radius: 25px;
+}
+
+.loading {
+  font-size: 1.2rem;
+  color: #007bff;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.error {
+  font-size: 1.2rem;
+  color: red;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.user-list p {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
