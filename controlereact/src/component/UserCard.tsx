@@ -1,6 +1,7 @@
 import type { User } from '../Model/User';
 import '../Style/UserCard.css';
 import { Link } from "react-router-dom";
+import React from "react";
 
 type UserCardProps = {
   user: User; 
@@ -35,4 +36,4 @@ function UserCard({ user, isFavorite, onToggleFavorite }: UserCardProps) {
   )
 }
 
-export default UserCard
+export default React.memo(UserCard);

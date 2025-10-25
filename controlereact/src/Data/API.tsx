@@ -1,5 +1,5 @@
 export const fetchUsers = async () => {
-  const response = await fetch('https://dummyjson.com/users');
+  const response = await fetch('https://dummyjson.com/users?limit=100&skip=20');
   const data = await response.json();
     if (!response.ok) {
     throw new Error(`Erreur HTTP : ${response.status}`); 
